@@ -16,6 +16,8 @@ namespace ContadorDeLanches
         private static DateTime DiaNormal = DateTime.Now.Date;
         public Form1()
         {
+
+            InitializeComponent();
             var lanches = contexto.Lanches.ToList();
             DiaNormal = contexto.LanchesDia.Max(x => x.Dia);
             var lanchesDia = contexto.LanchesDia.Where(x => x.Dia==DiaNormal).ToList();
@@ -31,29 +33,34 @@ namespace ContadorDeLanches
                 labellanche.Size = new System.Drawing.Size(87, 32);
                 labellanche.TabIndex = 2;
                 labellanche.Text = lanches.ElementAt(i).Id + " - "+ lanches.ElementAt(i).Nome;
-                this.Controls.Add(labellanche);
                 var labellanche2 = new System.Windows.Forms.Label();
                 labellanche2.AutoSize = true;
                 labellanche2.BackColor = System.Drawing.SystemColors.Control;
                 labellanche2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 labellanche2.ForeColor = System.Drawing.Color.LimeGreen;
-                labellanche2.Location = new System.Drawing.Point(230, 46+(i*42));
+                labellanche2.Location = new System.Drawing.Point(250, 46+(i*42));
                 labellanche2.Name = "labellanchen"+i;
                 labellanche2.Size = new System.Drawing.Size(87, 32);
                 labellanche2.TabIndex = 2;
                 labellanche2.Text = lanchesDia.ElementAt(i).Qtd.ToString();
-                this.Controls.Add(labellanche);
-                this.Controls.Add(labellanche2);
+                this.tabPage1.Controls.Add(labellanche);
+                this.tabPage1.Controls.Add(labellanche2);
             }
-            InitializeComponent();
         }
         void atulizartabela()
         {
-            var lanchesDia = contexto.LanchesDia.Where(x => x.Dia == DiaNormal).ToList();
-            for (int i = 0; i < lanchesDia.Count; i++)
+            try
             {
+                var lanchesDia = contexto.LanchesDia.Where(x => x.Dia == DiaNormal).ToList();
+                for (int i = 0; i < lanchesDia.Count; i++)
+                {
 
-                this.Controls.Find("labellanchen" + i,false)[0].Text= lanchesDia.ElementAt(i).Qtd.ToString();
+                    this.tabPage1.Controls.Find("labellanchen" + i, false)[0].Text = lanchesDia.ElementAt(i).Qtd.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.StackTrace);
             }
         }
         void atualizar()
@@ -103,6 +110,28 @@ namespace ContadorDeLanches
             lanches.ForEach(s => contexto.LanchesDia.Add(s));
             contexto.SaveChanges();
             atulizartabela();
+        }
+
+        private void tabPage2_Enter(object sender, EventArgs e)
+        {
+            var dev = contexto.Lanches.ToList();
+            foreach (var lanche in dev)
+            {
+                System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+                series1.ChartArea = "ChartArea1";
+                series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+                series1.BorderWidth = 12;
+                
+                series1.Legend = "Legend1";
+                series1.Name = lanche.Nome;
+                var lanchesdia = contexto.LanchesDia.Where(x => x.IdLanche == lanche.Id).ToList();
+                foreach (var ponto in lanchesdia)
+                    series1.Points.AddXY(ponto.Dia.Day, ponto.Qtd);
+                this.chart1.Series.Add(series1);
+            }
+            /*
+*/
+
         }
     }
 }
