@@ -76,22 +76,22 @@ namespace ContadorDeLanches
         {
             ped.LancheNome = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == ped.IdLanche).Nome;
             lanchesped.Add(ped);
-            
+            atualizar();
+
+        }
+        public void atualizar()
+        {
             var source = new BindingSource();
             source.DataSource = lanchesped;
             dataGridView1.DataSource = source;
             dataGridView1.Refresh();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
                 lanchesped.RemoveAt(row.Index);
-                var source = new BindingSource();
-                source.DataSource = lanchesped;
-                dataGridView1.DataSource = source;
-                dataGridView1.Refresh();
+                atualizar();
             }
         }
     }
