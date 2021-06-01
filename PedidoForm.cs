@@ -17,10 +17,8 @@ namespace ContadorDeLanches
         public PedidoForm()
         {
             InitializeComponent();
-            var source = new BindingSource();
-            lanchesped = new List<PedidoLanche>() {  };
-            source.DataSource = lanchesped;
-            dataGridView1.DataSource = source;
+            lanchesped = new List<PedidoLanche>() { };
+            atualizar();
         }
 
         private void PedidoForm_Shown(object sender, EventArgs e)
@@ -84,6 +82,9 @@ namespace ContadorDeLanches
             var source = new BindingSource();
             source.DataSource = lanchesped;
             dataGridView1.DataSource = source;
+            dataGridView1.Columns["IdPedido"].Visible = false;
+            dataGridView1.Columns["IdLanche"].Visible = false;
+            dataGridView1.Columns["LancheNome"].DisplayIndex = 0;
             dataGridView1.Refresh();
         }
         private void button2_Click(object sender, EventArgs e)
