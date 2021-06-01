@@ -14,6 +14,8 @@ namespace ContadorDeLanches
     {
         internal static LancheContexto contexto = new LancheContexto();
         private static DateTime DiaNormal = DateTime.Now.Date;
+        internal static  PedidoForm Compra = new PedidoForm();
+        public static Form1 atual;
         public Form1()
         {
 
@@ -45,9 +47,10 @@ namespace ContadorDeLanches
                 labellanche2.Text = lanchesDia.ElementAt(i).Qtd.ToString();
                 this.tabPage1.Controls.Add(labellanche);
                 this.tabPage1.Controls.Add(labellanche2);
+                atual = this;
             }
         }
-        void atulizartabela()
+       public void atulizartabela()
         {
             try
             {
@@ -65,8 +68,9 @@ namespace ContadorDeLanches
         }
         void atualizar()
         {
+            /*
             int lancheid = 0;
-            if(int.TryParse(textBox1.Text,out lancheid))
+           if(int.TryParse(textBox1.Text,out lancheid))
             {
                 var hoje = DiaNormal;
                 var lanche= contexto.LanchesDia.FirstOrDefault(x => x.IdLanche == lancheid && x.Dia== hoje);
@@ -85,17 +89,21 @@ namespace ContadorDeLanches
             {
                 MessageBox.Show("lache invalido");
             }
-            textBox1.Text = "";
+            //textBox1.Text = "";
+            */
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            atualizar();
+            if(Compra==null || Compra.IsDisposed)
+                Compra = new PedidoForm();
+            Compra.Show();
+           // atualizar();
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.Enter)
-             atualizar();
+            //if(e.KeyCode==Keys.Enter)
+            // atualizar();
         }
 
         private void button2_Click(object sender, EventArgs e)

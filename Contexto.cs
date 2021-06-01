@@ -16,6 +16,9 @@ namespace ContadorDeLanches
         }
         public DbSet<Lanche> Lanches { get; set; }
         public DbSet<LancheDia> LanchesDia { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<PedidoLanche> PedidoLanche { get; set; }
+        public DbSet<Pedido> Pedido { get; set; }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             base.OnModelCreating(builder);
