@@ -25,6 +25,8 @@ namespace ContadorDeLanches
         {
             comboBox1.Items.Clear();
             comboBox1.Items.AddRange(Form1.contexto.Cliente.ToList().Select(x=>x.Nome).ToArray());
+            comboBox3.Items.Clear();
+            comboBox3.Items.AddRange(Form1.contexto.Pagamento.ToList().Select(x=>x.Nome).ToArray());
             dateTimePicker1.Value = DateTime.Now;
             comboBox2.SelectedItem = null;
             checkBox1.Checked = false;
@@ -44,11 +46,19 @@ namespace ContadorDeLanches
             {
                 cli = Form1.contexto.Cliente.Add(new Cliente() { Nome = comboBox1.Text });
             }
+            var pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox3.Text);
+            if (pag == null)
+            {
+                pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
+            }
+
+            Form1.contexto.SaveChanges();
             var ped = new Pedido()
             {
                 Chegada = dateTimePicker1.Value,
                 ParaViagem = checkBox1.Checked,
                 IdCliente = cli.Id,
+                IdPagamento=pag.Id,
                 status = comboBox2.SelectedIndex,
             };
             ped = Form1.contexto.Pedido.Add(ped);
@@ -73,18 +83,31 @@ namespace ContadorDeLanches
         public void adicionarlinha(PedidoLanche ped)
         {
             ped.LancheNome = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == ped.IdLanche).Nome;
+            ped.IdItem = lanchesped.Count();
             lanchesped.Add(ped);
             atualizar();
 
         }
+        private int indexcombo =6;
         public void atualizar()
         {
+           
+            BindingSource bindingSourceMonth = new BindingSource();
+            bindingSourceMonth.DataSource = Form1.contexto.Lanches.ToList();
+            //indexcombo=ColumnMonth.Index;
             var source = new BindingSource();
             source.DataSource = lanchesped;
             dataGridView1.DataSource = source;
+           
             dataGridView1.Columns["IdPedido"].Visible = false;
             dataGridView1.Columns["IdLanche"].Visible = false;
+            dataGridView1.Columns["IdItem"].Visible = false;
             dataGridView1.Columns["LancheNome"].DisplayIndex = 0;
+            dataGridView1.Columns["LancheNome"].Width = 320;
+            foreach (DataGridViewBand band in dataGridView1.Columns)
+            {
+                band.ReadOnly = true;
+            }
             dataGridView1.Refresh();
         }
         private void button2_Click(object sender, EventArgs e)
@@ -95,5 +118,8 @@ namespace ContadorDeLanches
                 atualizar();
             }
         }
+
+
+
     }
 }

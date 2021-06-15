@@ -15,6 +15,8 @@ namespace ContadorDeLanches
 
         [Key, Column(Order = 2)]
         public int IdPedido { get; set; }
+        [Key, Column(Order = 3)]
+        public int IdItem { get; set; }
         public string PontoCarne { get; set; }
         public string Adicionais { get; set; }
         public string Remover { get; set; }
