@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ContadorDeLanches
 {
@@ -123,6 +124,7 @@ namespace ContadorDeLanches
         private void tabPage2_Enter(object sender, EventArgs e)
         {
             var dev = contexto.Lanches.ToList();
+            this.chart1.Series.Clear();
             foreach (var lanche in dev)
             {
                 System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -135,6 +137,8 @@ namespace ContadorDeLanches
                 var lanchesdia = contexto.LanchesDia.Where(x => x.IdLanche == lanche.Id).ToList();
                 foreach (var ponto in lanchesdia)
                     series1.Points.AddXY(ponto.Dia.Day, ponto.Qtd);
+                series1.MarkerStyle = MarkerStyle.Circle;
+                series1.MarkerSize = 13;
                 this.chart1.Series.Add(series1);
             }
             /*
