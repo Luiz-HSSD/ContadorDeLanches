@@ -169,7 +169,7 @@ namespace ContadorDeLanches
             dataGridView1.Columns["IdLanche"].Visible = false;
             dataGridView1.Columns["IdItem"].Visible = false;
             dataGridView1.Columns["LancheNome"].DisplayIndex = 0;
-            dataGridView1.Columns["LancheNome"].Width = 320;
+            dataGridView1.Columns["LancheNome"].Width = 220;
             foreach (DataGridViewBand band in dataGridView1.Columns)
             {
                 band.ReadOnly = true;
