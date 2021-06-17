@@ -7,16 +7,12 @@ using System.Threading.Tasks;
 
 namespace ContadorDeLanches
 {
-    public class Pedido
+    public class Balanco
     {
         [Key]
         public int Id { get; set; }
-
-        public int IdCliente { get; set; }
+        public DateTime Dia { get; set; }
         public int IdPagamento { get; set; }
-        public DateTime Chegada { get; set; }
-        public bool ParaViagem { get; set; }
-        public int status { get; set; }
         public double Total { get; set; }
     }
 }

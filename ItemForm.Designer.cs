@@ -44,9 +44,10 @@ namespace ContadorDeLanches
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(223, 368);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(237, 387);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(181, 34);
             this.button1.TabIndex = 0;
             this.button1.Text = "adicionar";
             this.button1.UseVisualStyleBackColor = true;
@@ -54,9 +55,10 @@ namespace ContadorDeLanches
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(394, 368);
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(472, 387);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(246, 34);
             this.button2.TabIndex = 1;
             this.button2.Text = "voltar";
             this.button2.UseVisualStyleBackColor = true;
@@ -64,73 +66,81 @@ namespace ContadorDeLanches
             // 
             // comboBox1
             // 
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(118, 55);
+            this.comboBox1.Location = new System.Drawing.Point(176, 55);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(293, 21);
+            this.comboBox1.Size = new System.Drawing.Size(293, 28);
             this.comboBox1.TabIndex = 2;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(118, 149);
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(176, 149);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(293, 20);
+            this.textBox2.Size = new System.Drawing.Size(293, 26);
             this.textBox2.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(58, 58);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.Size = new System.Drawing.Size(56, 20);
             this.label1.TabIndex = 5;
             this.label1.Text = "lanche";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(58, 99);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.Size = new System.Drawing.Size(50, 20);
             this.label2.TabIndex = 6;
             this.label2.Text = "ponto";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(118, 209);
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox3.Location = new System.Drawing.Point(176, 209);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(293, 20);
+            this.textBox3.Size = new System.Drawing.Size(293, 26);
             this.textBox3.TabIndex = 7;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(58, 152);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.Size = new System.Drawing.Size(71, 20);
             this.label3.TabIndex = 8;
             this.label3.Text = "adicional";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(58, 212);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(26, 13);
+            this.label4.Size = new System.Drawing.Size(39, 20);
             this.label4.TabIndex = 9;
             this.label4.Text = "sem";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // comboBox2
             // 
+            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
             "Mal Passado",
             "Ao Ponto",
             "Bem Passado"});
-            this.comboBox2.Location = new System.Drawing.Point(118, 96);
+            this.comboBox2.Location = new System.Drawing.Point(176, 96);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(293, 21);
+            this.comboBox2.Size = new System.Drawing.Size(293, 28);
             this.comboBox2.TabIndex = 10;
             // 
             // ItemForm

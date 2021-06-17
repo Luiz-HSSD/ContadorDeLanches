@@ -77,7 +77,7 @@ namespace ContadorDeLanches
             this.tabControl1.Location = new System.Drawing.Point(5, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1060, 577);
+            this.tabControl1.Size = new System.Drawing.Size(1060, 689);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -89,7 +89,7 @@ namespace ContadorDeLanches
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1052, 551);
+            this.tabPage1.Size = new System.Drawing.Size(1052, 651);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Lanches";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -100,7 +100,7 @@ namespace ContadorDeLanches
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1052, 551);
+            this.tabPage2.Size = new System.Drawing.Size(1052, 663);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Gráfico";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -117,7 +117,7 @@ namespace ContadorDeLanches
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(3, 3);
             this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1046, 539);
+            this.chart1.Size = new System.Drawing.Size(1046, 453);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "Lanches por Dia";
             // 
@@ -126,7 +126,7 @@ namespace ContadorDeLanches
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1077, 615);
+            this.ClientSize = new System.Drawing.Size(1076, 702);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";

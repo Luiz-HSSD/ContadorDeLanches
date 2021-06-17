@@ -20,6 +20,7 @@ namespace ContadorDeLanches
         public string PontoCarne { get; set; }
         public string Adicionais { get; set; }
         public string Remover { get; set; }
+        public double Preco { get; set; }
         [NotMapped]
         public  string LancheNome { get; set; }
 

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ContadorDeLanches
 {
@@ -24,9 +27,9 @@ namespace ContadorDeLanches
         private void PedidoForm_Shown(object sender, EventArgs e)
         {
             comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(Form1.contexto.Cliente.ToList().Select(x=>x.Nome).ToArray());
+            comboBox1.Items.AddRange(Form1.contexto.Cliente.ToList().Select(x => x.Nome).ToArray());
             comboBox3.Items.Clear();
-            comboBox3.Items.AddRange(Form1.contexto.Pagamento.ToList().Select(x=>x.Nome).ToArray());
+            comboBox3.Items.AddRange(Form1.contexto.Pagamento.ToList().Select(x => x.Nome).ToArray());
             dateTimePicker1.Value = DateTime.Now;
             comboBox2.SelectedItem = null;
             checkBox1.Checked = false;
@@ -38,8 +41,7 @@ namespace ContadorDeLanches
                 Compra = new ItemForm();
             Compra.Show();
         }
-
-        private void button3_Click(object sender, EventArgs e)
+        public void fecharPedido()
         {
             var cli = Form1.contexto.Cliente.FirstOrDefault(x => x.Nome == comboBox1.Text);
             if (cli == null)
@@ -49,17 +51,26 @@ namespace ContadorDeLanches
             var pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox3.Text);
             if (pag == null)
             {
-                pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
+                if (comboBox3.Text == string.Empty || comboBox3.Text == null)
+                    pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Id == 1);
+                else
+                    pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
             }
 
             Form1.contexto.SaveChanges();
+            double totalped = 0;
+            foreach (var d in lanchesped)
+            {
+                totalped += d.Preco;
+            }
             var ped = new Pedido()
             {
                 Chegada = dateTimePicker1.Value,
                 ParaViagem = checkBox1.Checked,
                 IdCliente = cli.Id,
-                IdPagamento=pag.Id,
+                IdPagamento = pag.Id,
                 status = comboBox2.SelectedIndex,
+                Total = totalped
             };
             ped = Form1.contexto.Pedido.Add(ped);
             Form1.contexto.SaveChanges();
@@ -76,9 +87,65 @@ namespace ContadorDeLanches
                     Form1.atual.atulizartabela();
                 }
                 Form1.contexto.SaveChanges();
-                this.Close();
-
+                
             }
+            var hoje = DateTime.Now.Date;
+            var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento && x.Dia == hoje);
+            if (bal == null)
+            {
+                bal = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.Total, IdPagamento = ped.IdPagamento, Dia = DateTime.Now.Date });
+            }
+            else
+            {
+                bal.Total += ped.Total;
+                var entry = Form1.contexto.Entry(bal); // Gets the entry for entity inside context
+                entry.State = EntityState.Modified;
+            }
+            Form1.contexto.SaveChanges();
+            salvarPedido(ped, cli, pag);
+            this.Close();
+        }
+        public string Diretoriocomanda = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\comandas";
+        private void salvarPedido(Pedido ped,Cliente cli,Pagamento pag)
+        {
+            if (!Directory.Exists(Diretoriocomanda))
+            {
+                Directory.CreateDirectory(Diretoriocomanda);
+            }
+            var Diretoriocomandahoje = Diretoriocomanda + "\\"+DateTime.Now.ToString("dd-MM-yyyy");
+            if (!Directory.Exists(Diretoriocomandahoje))
+            {
+                Directory.CreateDirectory(Diretoriocomandahoje);
+            }
+            var comanda = "";
+            comanda += "Pedido: "+ped.Id+ "\n";
+            comanda += "Cliente: "+cli.Nome+ "\n";
+            comanda += "Chegada: "+ped.Chegada.ToString("dd/MM/yyyy HH:mm:ss")+ "\n";
+            comanda += "Pagamento: "+ pag.Nome+ "\n";
+            comanda += "Para Viagem: "+ (ped.ParaViagem?"Sim":"Não")+ "\n";
+            comanda += "\n";
+            foreach (var pedi in lanchesped)
+            {
+                comanda += pedi.IdItem + "\t\tItem:" + pedi.LancheNome + "\t\t Preço: " + pedi.Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\n";
+            }
+            comanda += "\n";
+            comanda += "Total: " + label6.Text + "\n";
+            var arquivo = Diretoriocomandahoje + "\\" + ped.Id + " " + DateTime.Now.ToString("HH-mm-ss")+".txt";
+            File.WriteAllText(arquivo, comanda);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            fecharPedido();
+        }
+        public void calculatotal()
+        {
+            double total = 0;
+            foreach (var d in lanchesped)
+            {
+                total += d.Preco;
+            }
+            label6.Text = (total).ToString("C2", CultureInfo.GetCultureInfo("pt-BR"));
         }
         public void adicionarlinha(PedidoLanche ped)
         {
@@ -86,9 +153,8 @@ namespace ContadorDeLanches
             ped.IdItem = lanchesped.Count();
             lanchesped.Add(ped);
             atualizar();
-
+            calculatotal();
         }
-        private int indexcombo =6;
         public void atualizar()
         {
            
@@ -116,10 +182,103 @@ namespace ContadorDeLanches
             {
                 lanchesped.RemoveAt(row.Index);
                 atualizar();
+                calculatotal();
             }
         }
+        public void dev(KeyEventArgs e)
+        {
+            var lan = new Lanche();
+            var pedi = new PedidoLanche()
+            {
+                PontoCarne = "",
+                Adicionais = "",
+                Remover = ""
+            };
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 1);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F2:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 2);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F3:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 3);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F4:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 4);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F5:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 5);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F6:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 6);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F7:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 7);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F8:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 8);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F9:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 9);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.D1:
+                    comboBox3.SelectedIndex = comboBox3.FindStringExact("Dinheiro");
+                    fecharPedido();
+                    break;
+                case Keys.D2:
+                    comboBox3.SelectedIndex = comboBox3.FindStringExact("cc - Cartão de Creditto");
+                    fecharPedido();
+                    break;
+                case Keys.D3:
+                    comboBox3.SelectedIndex = comboBox3.FindStringExact("cd - Cartão de Débito");
+                    fecharPedido();
+                    break;
+                case Keys.D4:
+                    comboBox3.SelectedIndex = comboBox3.FindStringExact("pix");
+                    fecharPedido();
+                    break;
+            }
+        }
+        private void PedidoForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           // dev(e);
 
 
+        }
 
+        private void PedidoForm_KeyDown(object sender, KeyEventArgs e)
+        {
+           // e.
+            dev(e);
+        }
     }
 }

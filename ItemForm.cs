@@ -49,7 +49,9 @@ namespace ContadorDeLanches
                 IdLanche=lan.Id,
                 PontoCarne = comboBox2.Text,
                 Adicionais = textBox2.Text,
-                Remover = textBox3.Text
+                Remover = textBox3.Text,
+                Preco=lan.Preco,
+                
             };
             Form1.Compra.adicionarlinha(pedi);
             this.Close();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,46 @@ namespace ContadorDeLanches
                 this.tabPage1.Controls.Add(labellanche2);
                 atual = this;
             }
+            var hoje = DateTime.Now.Date;
+            var pags = contexto.Pagamento.ToList();
+            foreach (var pag in pags)
+            {
+                var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == pag.Id && x.Dia == hoje);
+                if (bal == null)
+                {
+                    bal = contexto.Balanco.Add(new Balanco() { Total = 0, IdPagamento = pag.Id, Dia = hoje });
+                }
+
+            }
+            contexto.SaveChanges();
+            pags = contexto.Pagamento.ToList();
+            var bals = contexto.Balanco.Where(x => x.Dia == hoje).ToList();
+            for (int i = 0; i < bals.Count; i++)
+            {
+                var labellanchebals = new System.Windows.Forms.Label();
+                labellanchebals.AutoSize = true;
+                labellanchebals.BackColor = System.Drawing.SystemColors.Control;
+                labellanchebals.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                labellanchebals.ForeColor = System.Drawing.Color.Chocolate;
+                labellanchebals.Location = new System.Drawing.Point(16, 516 + (i * 25));
+                labellanchebals.Name = "balslanche" + i;
+                labellanchebals.Size = new System.Drawing.Size(87, 32);
+                labellanchebals.TabIndex = 2;
+                labellanchebals.Text = pags.FirstOrDefault(x => x.Id == bals.ElementAt(i).IdPagamento).Nome;
+                var labellanchebals2 = new System.Windows.Forms.Label();
+                labellanchebals2.AutoSize = true;
+                labellanchebals2.BackColor = System.Drawing.SystemColors.Control;
+                labellanchebals2.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                labellanchebals2.ForeColor = System.Drawing.Color.LimeGreen;
+                labellanchebals2.Location = new System.Drawing.Point(250, 516 + (i * 25));
+                labellanchebals2.Name = "balslanchen" + i;
+                labellanchebals2.Size = new System.Drawing.Size(87, 32);
+                labellanchebals2.TabIndex = 2;
+                labellanchebals2.Text = bals.ElementAt(i).Total.ToString("C2", CultureInfo.GetCultureInfo("pt-BR"));
+                this.tabPage2.Controls.Add(labellanchebals);
+                this.tabPage2.Controls.Add(labellanchebals2);
+                atual = this;
+            }
         }
        public void atulizartabela()
         {
@@ -60,6 +101,22 @@ namespace ContadorDeLanches
                 {
 
                     this.tabPage1.Controls.Find("labellanchen" + i, false)[0].Text = lanchesDia.ElementAt(i).Qtd.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.StackTrace);
+            }
+        }
+        public void atulizartabelab()
+        {
+            try
+            {
+                var hoje = DateTime.Now.Date;
+                var bals = contexto.Balanco.Where(x => x.Dia == hoje).ToList();
+                for (int i = 0; i < bals.Count; i++)
+                {
+                    this.tabPage2.Controls.Find("balslanchen" + i, false)[0].Text = bals.ElementAt(i).Total.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"));
                 }
             }
             catch (Exception e)
@@ -141,6 +198,7 @@ namespace ContadorDeLanches
                 series1.MarkerSize = 13;
                 this.chart1.Series.Add(series1);
             }
+            atulizartabelab();
             /*
 */
 
