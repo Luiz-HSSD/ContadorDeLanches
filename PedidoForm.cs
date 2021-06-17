@@ -132,6 +132,7 @@ namespace ContadorDeLanches
             comanda += "Total: " + label6.Text + "\n";
             var arquivo = Diretoriocomandahoje + "\\" + ped.Id + " " + DateTime.Now.ToString("HH-mm-ss")+".txt";
             File.WriteAllText(arquivo, comanda);
+            System.Diagnostics.Process.Start(arquivo);
         }
 
         private void button3_Click(object sender, EventArgs e)
