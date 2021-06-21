@@ -124,7 +124,6 @@ namespace ContadorDeLanches
             comanda += "Pagamento: "+ pag.Nome+ "\r\n";
             comanda += "Para Viagem: "+ (ped.ParaViagem?"Sim":"Não")+ "\r\n";
             comanda += "\r\n";
-
             foreach (var pedi in lanchesped)
             {
                 comanda += pedi.IdItem + "\t\tItem:" + pedi.LancheNome + "\t\t Preço: " + pedi.Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\r\n";
