@@ -118,18 +118,18 @@ namespace ContadorDeLanches
                 Directory.CreateDirectory(Diretoriocomandahoje);
             }
             var comanda = "";
-            comanda += "Pedido: "+ped.Id+ "\n";
-            comanda += "Cliente: "+cli.Nome+ "\n";
-            comanda += "Chegada: "+ped.Chegada.ToString("dd/MM/yyyy HH:mm:ss")+ "\n";
-            comanda += "Pagamento: "+ pag.Nome+ "\n";
-            comanda += "Para Viagem: "+ (ped.ParaViagem?"Sim":"Não")+ "\n";
-            comanda += "\n";
+            comanda += "Pedido: "+ped.Id+ "\r\n";
+            comanda += "Cliente: "+cli.Nome+ "\r\n";
+            comanda += "Chegada: "+ped.Chegada.ToString("dd/MM/yyyy HH:mm:ss")+ "\r\n";
+            comanda += "Pagamento: "+ pag.Nome+ "\r\n";
+            comanda += "Para Viagem: "+ (ped.ParaViagem?"Sim":"Não")+ "\r\n";
+            comanda += "\r\n";
             foreach (var pedi in lanchesped)
             {
-                comanda += pedi.IdItem + "\t\tItem:" + pedi.LancheNome + "\t\t Preço: " + pedi.Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\n";
+                comanda += pedi.IdItem + "\t\tItem:" + pedi.LancheNome + "\t\t Preço: " + pedi.Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\r\n";
             }
-            comanda += "\n";
-            comanda += "Total: " + label6.Text + "\n";
+            comanda += "\r\n";
+            comanda += "Total: " + label6.Text + "\r\n";
             var arquivo = Diretoriocomandahoje + "\\" + ped.Id + " " + DateTime.Now.ToString("HH-mm-ss")+".txt";
             File.WriteAllText(arquivo, comanda);
             System.Diagnostics.Process.Start(arquivo);
@@ -247,6 +247,24 @@ namespace ContadorDeLanches
                     break;
                 case Keys.F9:
                     lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 9);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F10:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 10);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F11:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 11);
+                    pedi.IdLanche = lan.Id;
+                    pedi.Preco = lan.Preco;
+                    Form1.Compra.adicionarlinha(pedi);
+                    break;
+                case Keys.F12:
+                    lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == 12);
                     pedi.IdLanche = lan.Id;
                     pedi.Preco = lan.Preco;
                     Form1.Compra.adicionarlinha(pedi);
