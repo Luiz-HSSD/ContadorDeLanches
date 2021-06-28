@@ -89,7 +89,7 @@ namespace ContadorDeLanches
                 Form1.contexto.SaveChanges();
                 
             }
-            var hoje = DateTime.Now.Date;
+            var hoje = Form1.contexto.LanchesDia.Max(x => x.Dia);
             var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento && x.Dia == hoje);
             if (bal == null)
             {
