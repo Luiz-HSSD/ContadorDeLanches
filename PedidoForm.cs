@@ -52,8 +52,10 @@ namespace ContadorDeLanches
             if (pag == null)
             {
                 //if (comboBox3.Text == string.Empty || comboBox3.Text == null)
-                    pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Id == 1);
-               // else
+                //    pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Id == 1);
+                MessageBox.Show("Favor inserir o pagamento");
+                return;
+                // else
                 //    pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
             }
 

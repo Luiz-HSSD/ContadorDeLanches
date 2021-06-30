@@ -42,7 +42,7 @@ namespace ContadorDeLanches
             var lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Nome.ToLower() == comboBox1.Text.ToLower());
             if (lan == null)
             {
-                MessageBox.Show("Lanche invalido");
+                MessageBox.Show("Lanche inválido");
                 return;
             }
             var pedi = new PedidoLanche()
