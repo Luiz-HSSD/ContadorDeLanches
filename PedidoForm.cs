@@ -51,10 +51,10 @@ namespace ContadorDeLanches
             var pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox3.Text);
             if (pag == null)
             {
-                if (comboBox3.Text == string.Empty || comboBox3.Text == null)
+                //if (comboBox3.Text == string.Empty || comboBox3.Text == null)
                     pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Id == 1);
-                else
-                    pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
+               // else
+                //    pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
             }
 
             Form1.contexto.SaveChanges();
@@ -78,7 +78,7 @@ namespace ContadorDeLanches
             {
                 pedi.IdPedido = ped.Id;
                 Form1.contexto.PedidoLanche.Add(pedi);
-                var DiaNormal = Form1.contexto.LanchesDia.Max(x => x.Dia);
+                var DiaNormal = Form1.DiaNormal;
                 var lanche = Form1.contexto.LanchesDia.FirstOrDefault(x => x.IdLanche == pedi.IdLanche && x.Dia == DiaNormal);
                 if (lanche != null)
                 {
@@ -89,11 +89,11 @@ namespace ContadorDeLanches
                 Form1.contexto.SaveChanges();
                 
             }
-            var hoje = Form1.contexto.LanchesDia.Max(x => x.Dia);
+            var hoje = Form1.DiaNormal;
             var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento && x.Dia == hoje);
             if (bal == null)
             {
-                bal = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.Total, IdPagamento = ped.IdPagamento, Dia = DateTime.Now.Date });
+                bal = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.Total, IdPagamento = ped.IdPagamento, Dia = Form1.DiaNormal });
             }
             else
             {

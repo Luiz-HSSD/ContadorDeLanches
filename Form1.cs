@@ -15,7 +15,7 @@ namespace ContadorDeLanches
     public partial class Form1 : Form
     {
         internal static LancheContexto contexto = new LancheContexto();
-        private static DateTime DiaNormal = DateTime.Now.Date;
+        internal static DateTime DiaNormal = DateTime.Now.Date;
         internal static  PedidoForm Compra = new PedidoForm();
         public static Form1 atual;
         public Form1()

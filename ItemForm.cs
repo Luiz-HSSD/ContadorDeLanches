@@ -39,10 +39,11 @@ namespace ContadorDeLanches
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Nome == comboBox1.Text);
+            var lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Nome.ToLower() == comboBox1.Text.ToLower());
             if (lan == null)
             {
-                lan = Form1.contexto.Lanches.Add(new Lanche() { Nome = comboBox1.Text });
+                MessageBox.Show("Lanche invalido");
+                return;
             }
             var pedi = new PedidoLanche()
             {
