@@ -56,11 +56,14 @@ namespace ContadorDeLanches
                 Adicionais = "",
                 pedLanchesAdicionais=pedLanchesAdicionaiss
             };
-            foreach(var a in pedLanchesAdicionaiss)
+            if (pedLanchesAdicionaiss.Count() > 0)
             {
-                pedi.Preco += a.Preco;
-                pedi.Adicionais += a.Nome + ", ";
+                foreach (var a in pedLanchesAdicionaiss)
+                {
+                    pedi.Preco += a.Preco;
+                    pedi.Adicionais += a.Nome + ", ";
 
+                }
             }
             pedi.Adicionais = pedi.Adicionais.Substring(0, pedi.Adicionais.Length - 2);
             Form1.Compra.adicionarlinha(pedi);
@@ -80,6 +83,7 @@ namespace ContadorDeLanches
             dataGridView1.Columns["IdLanche"].Visible = false;
             dataGridView1.Columns["IdItem"].Visible = false;
             dataGridView1.Columns["IdAdicional"].Visible = false;
+            dataGridView1.Columns["Id"].Visible = false;
             dataGridView1.Columns["Nome"].DisplayIndex = 0;
             dataGridView1.Columns["Nome"].Width = 220;
             foreach (DataGridViewBand band in dataGridView1.Columns)
