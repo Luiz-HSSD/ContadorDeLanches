@@ -295,6 +295,14 @@ namespace ContadorDeLanches
                 lanches.Add(new LancheDia() { IdLanche = lanche.Id, Dia = DiaNormal, Qtd = 0 });
             }
             lanches.ForEach(s => contexto.LanchesDia.Add(s));
+            foreach (var pag in contexto.Pagamento.ToList())
+            {
+                var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == pag.Id && x.Dia == DiaNormal);
+                if (bal == null)
+                {
+                    bal = Form1.contexto.Balanco.Add(new Balanco() { Total = 0, IdPagamento = pag.Id, Dia = DiaNormal });
+                }
+            }
             contexto.SaveChanges();
             atulizartabela();
         }

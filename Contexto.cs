@@ -21,6 +21,8 @@ namespace ContadorDeLanches
         public DbSet<PedidoLanche> PedidoLanche { get; set; }
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<Balanco> Balanco { get; set; }
+        public DbSet<Adicionais> Adicionais { get; set; }
+        public DbSet<PedidoLanchesAdicionais> PedidoLanchesAdicionais { get; set; }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             base.OnModelCreating(builder);

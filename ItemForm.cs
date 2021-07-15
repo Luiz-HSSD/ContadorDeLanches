@@ -12,7 +12,7 @@ namespace ContadorDeLanches
 {
     public partial class ItemForm : Form
     {
-        
+        private List<PedidoLanchesAdicionais> pedLanchesAdicionaiss=new List<PedidoLanchesAdicionais>();
         public ItemForm()
         {
             InitializeComponent();
@@ -27,8 +27,10 @@ namespace ContadorDeLanches
         {
             comboBox1.Items.Clear();
             comboBox1.Items.AddRange(Form1.contexto.Lanches.ToList().Select(x => x.Nome).ToArray());
+            comboBox3.Items.Clear();
+            comboBox3.Items.AddRange(Form1.contexto.Adicionais.ToList().Select(x => x.Nome).ToArray());
             comboBox2.Text = string.Empty;
-            textBox2.Text = string.Empty;
+            comboBox3.Text = string.Empty;
             textBox3.Text = string.Empty;
         }
 
@@ -47,15 +49,57 @@ namespace ContadorDeLanches
             }
             var pedi = new PedidoLanche()
             {
-                IdLanche=lan.Id,
+                IdLanche = lan.Id,
                 PontoCarne = comboBox2.Text,
-                Adicionais = textBox2.Text,
                 Remover = textBox3.Text,
-                Preco=lan.Preco,
-                
+                Preco = lan.Preco,
+                Adicionais = "",
+                pedLanchesAdicionais=pedLanchesAdicionaiss
             };
+            foreach(var a in pedLanchesAdicionaiss)
+            {
+                pedi.Preco += a.Preco;
+                pedi.Adicionais += a.Nome + ", ";
+
+            }
+            pedi.Adicionais = pedi.Adicionais.Substring(0, pedi.Adicionais.Length - 2);
             Form1.Compra.adicionarlinha(pedi);
             this.Close();
+        }
+        public void atualizar()
+        {
+
+            BindingSource bindingSourceMonth = new BindingSource();
+            bindingSourceMonth.DataSource = Form1.contexto.Lanches.ToList();
+            //indexcombo=ColumnMonth.Index;
+            var source = new BindingSource();
+            source.DataSource = pedLanchesAdicionaiss;
+            dataGridView1.DataSource = source;
+
+            dataGridView1.Columns["IdPedido"].Visible = false;
+            dataGridView1.Columns["IdLanche"].Visible = false;
+            dataGridView1.Columns["IdItem"].Visible = false;
+            dataGridView1.Columns["IdAdicional"].Visible = false;
+            dataGridView1.Columns["Nome"].DisplayIndex = 0;
+            dataGridView1.Columns["Nome"].Width = 220;
+            foreach (DataGridViewBand band in dataGridView1.Columns)
+            {
+                band.ReadOnly = true;
+            }
+            dataGridView1.Refresh();
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            PedidoLanchesAdicionais ped = new PedidoLanchesAdicionais();
+            if (!string.IsNullOrEmpty(comboBox3.Text)) {
+                ped.IdAdicional = Form1.contexto.Adicionais.FirstOrDefault(x => x.Nome == comboBox3.Text).Id;
+                var dev = Form1.contexto.Adicionais.FirstOrDefault(x => x.Id == ped.IdAdicional);
+                ped.Nome = dev.Nome;
+                ped.Preco = dev.Preco;
+                ped.Id = pedLanchesAdicionaiss.Count()+1;
+                pedLanchesAdicionaiss.Add(ped);
+                atualizar();
+            }
         }
     }
 }

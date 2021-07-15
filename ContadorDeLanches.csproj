@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adicionais.cs" />
     <Compile Include="Balanco.cs" />
     <Compile Include="Pagamento.cs" />
     <Compile Include="Cliente.cs" />
@@ -105,6 +106,7 @@
       <DependentUpon>PedidoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PedidoLanche.cs" />
+    <Compile Include="PedidoLanchesAdicionais.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -85,6 +85,11 @@ namespace ContadorDeLanches
                 if (lanche != null)
                 {
                     lanche.Qtd += 1;
+                    foreach(var a in pedi.pedLanchesAdicionais)
+                    {
+                        a.IdPedido = pedi.IdPedido;
+                        Form1.contexto.PedidoLanchesAdicionais.Add(a);
+                    }
                     Form1.contexto.SaveChanges();
                     Form1.atual.atulizartabela();
                 }
@@ -130,6 +135,13 @@ namespace ContadorDeLanches
             {
                 comanda += pedi.IdItem + "\t\tItem:" + pedi.LancheNome + "\t\t Preço: " + pedi.Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\r\n";
             }
+            foreach (var pedi in lanchesped)
+            {    
+                foreach (var a in pedi.pedLanchesAdicionais)
+                {
+                    comanda += (lanchesped.Count()+ a.Id)+ "\t\tItem:" + a.Nome + "\t\t Preço: " + a.Preco.ToString("C2", CultureInfo.GetCultureInfo("pt-BR")) + "\r\n";
+                }
+            }
             comanda += "\r\n";
             comanda += "Total: " + label6.Text + "\r\n";
             var arquivo = Diretoriocomandahoje + "\\" + ped.Id + " " + DateTime.Now.ToString("HH-mm-ss")+".txt";
@@ -154,6 +166,11 @@ namespace ContadorDeLanches
         {
             ped.LancheNome = Form1.contexto.Lanches.FirstOrDefault(x => x.Id == ped.IdLanche).Nome;
             ped.IdItem = lanchesped.Count();
+            foreach (var a in ped.pedLanchesAdicionais)
+            {
+                a.IdLanche = ped.IdLanche;
+                a.IdItem = ped.IdItem;
+            }
             lanchesped.Add(ped);
             atualizar();
             calculatotal();
@@ -194,7 +211,6 @@ namespace ContadorDeLanches
             var pedi = new PedidoLanche()
             {
                 PontoCarne = "",
-                Adicionais = "",
                 Remover = ""
             };
             switch (e.KeyCode)

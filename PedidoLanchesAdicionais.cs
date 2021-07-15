@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ContadorDeLanches
 {
-    public class PedidoLanche
+    public class PedidoLanchesAdicionais
     {
         [Key, Column(Order = 1)]
         public int IdLanche { get; set; }
@@ -17,15 +17,11 @@ namespace ContadorDeLanches
         public int IdPedido { get; set; }
         [Key, Column(Order = 3)]
         public int IdItem { get; set; }
-        public string PontoCarne { get; set; }
-        public string Adicionais { get; set; }
-        public string Remover { get; set; }
+        [Key, Column(Order = 4)]
+        public int Id { get; set; }
+        public int IdAdicional { get; set; }
+        public string Nome { get; set; }
+        [NotMapped]
         public double Preco { get; set; }
-        [NotMapped]
-        public  string LancheNome { get; set; }
-
-        [NotMapped]
-        public List<PedidoLanchesAdicionais> pedLanchesAdicionais=new List<PedidoLanchesAdicionais>();
-
     }
 }
