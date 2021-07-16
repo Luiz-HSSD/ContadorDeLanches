@@ -56,7 +56,7 @@ namespace ContadorDeLanches
                 Adicionais = "",
                 pedLanchesAdicionais=pedLanchesAdicionaiss
             };
-            if (pedLanchesAdicionaiss.Count() > 0)
+            if (pedLanchesAdicionaiss.Count > 0)
             {
                 foreach (var a in pedLanchesAdicionaiss)
                 {
@@ -64,8 +64,8 @@ namespace ContadorDeLanches
                     pedi.Adicionais += a.Nome + ", ";
 
                 }
+                pedi.Adicionais = pedi.Adicionais.Substring(0, pedi.Adicionais.Length - 2);
             }
-            pedi.Adicionais = pedi.Adicionais.Substring(0, pedi.Adicionais.Length - 2);
             Form1.Compra.adicionarlinha(pedi);
             this.Close();
         }
@@ -102,6 +102,15 @@ namespace ContadorDeLanches
                 ped.Preco = dev.Preco;
                 ped.Id = pedLanchesAdicionaiss.Count()+1;
                 pedLanchesAdicionaiss.Add(ped);
+                atualizar();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                pedLanchesAdicionaiss.RemoveAt(row.Index);
                 atualizar();
             }
         }
