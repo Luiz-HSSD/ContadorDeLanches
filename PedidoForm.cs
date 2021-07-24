@@ -406,7 +406,7 @@ namespace ContadorDeLanches
                     checkBox2.Checked = !checkBox2.Checked;
                     break;
                 case Keys.None:
-                    if(e.KeyValue==193)
+                    if(e.KeyValue == 193)
                         checkBox2.Checked =! checkBox2.Checked;
                     break;
             }
