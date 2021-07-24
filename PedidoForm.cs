@@ -30,6 +30,10 @@ namespace ContadorDeLanches
             comboBox1.Items.AddRange(Form1.contexto.Cliente.ToList().Select(x => x.Nome).ToArray());
             comboBox3.Items.Clear();
             comboBox3.Items.AddRange(Form1.contexto.Pagamento.ToList().Select(x => x.Nome).ToArray());
+            comboBox4.Items.Clear();
+            comboBox4.Items.AddRange(Form1.contexto.Pagamento.ToList().Select(x => x.Nome).ToArray());
+            comboBox5.Items.Clear();
+            comboBox5.Items.AddRange(Form1.contexto.Pagamento.ToList().Select(x => x.Nome).ToArray());
             dateTimePicker1.Value = DateTime.Now;
             comboBox2.SelectedItem = null;
             checkBox1.Checked = false;
@@ -48,32 +52,84 @@ namespace ContadorDeLanches
             {
                 cli = Form1.contexto.Cliente.Add(new Cliente() { Nome = comboBox1.Text });
             }
-            var pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox3.Text);
-            if (pag == null)
+            var pag1 = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox3.Text);
+            double valorPagoParcial = 0;
+            if (pag1 == null)
             {
-                //if (comboBox3.Text == string.Empty || comboBox3.Text == null)
-                //    pag = Form1.contexto.Pagamento.FirstOrDefault(x => x.Id == 1);
                 MessageBox.Show("Favor inserir o pagamento");
                 return;
-                // else
-                //    pag = Form1.contexto.Pagamento.Add(new Pagamento() { Nome = comboBox3.Text });
+            }
+            else
+            {
+                valorPagoParcial += double.Parse(textBox1.Text, CultureInfo.GetCultureInfo("pt-BR"));
+            }
+            var pag2 = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox4.Text);
+            var valorpag2 = textBox2.Text;
+            if (pag2 == null && !string.IsNullOrEmpty(valorpag2) && valorpag2 != "0" && valorpag2 != "0,0" && valorpag2 != "0,00" && checkBox2.Checked)
+            {
+                MessageBox.Show("Favor inserir o pagamento");
+                return;
+            }
+            else
+            {
+                valorPagoParcial += double.Parse(textBox2.Text, CultureInfo.GetCultureInfo("pt-BR"));
+            }
+            var pag3 = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox5.Text);
+            var valorpag3 = textBox3.Text;
+            if (pag3 == null && !string.IsNullOrEmpty(valorpag3) && valorpag3 != "0" && valorpag3 != "0,0" && valorpag3 != "0,00" && checkBox2.Checked)
+            {
+                MessageBox.Show("Favor inserir o pagamento");
+                return;
+            }
+            else
+            {
+                valorPagoParcial += double.Parse(textBox1.Text, CultureInfo.GetCultureInfo("pt-BR"));
             }
 
-            Form1.contexto.SaveChanges();
             double totalped = 0;
             foreach (var d in lanchesped)
             {
                 totalped += d.Preco;
             }
+            if (valorPagoParcial!= totalped)
+            {
+                MessageBox.Show("Pagamento Diferente do total do pedido");
+                return;
+            }
+            Form1.contexto.SaveChanges();
+            var ValorPago1f = double.Parse(textBox1.Text, CultureInfo.GetCultureInfo("pt-BR")); 
             var ped = new Pedido()
             {
                 Chegada = dateTimePicker1.Value,
                 ParaViagem = checkBox1.Checked,
                 IdCliente = cli.Id,
-                IdPagamento = pag.Id,
+                IdPagamento1 = pag1.Id,
+                ValorPago1 =ValorPago1f,
+                ValorPago2=null,
+                ValorPago3=null,
                 status = comboBox2.SelectedIndex,
                 Total = totalped
             };
+            if (pag2 == null)
+            {
+                ped.IdPagamento2 = null;
+                
+            }
+            else
+            {
+                ped.IdPagamento2 = pag2.Id;
+                ped.ValorPago2 = double.Parse(textBox2.Text, CultureInfo.GetCultureInfo("pt-BR"));
+            }
+            if (pag3 == null)
+            {
+                ped.IdPagamento3 = null;
+
+            }
+            else
+            {
+                ped.IdPagamento3 = pag3.Id;
+                ped.ValorPago3 = double.Parse(textBox3.Text, CultureInfo.GetCultureInfo("pt-BR"));
+            }
             ped = Form1.contexto.Pedido.Add(ped);
             Form1.contexto.SaveChanges();
             foreach (var pedi in lanchesped)
@@ -100,19 +156,48 @@ namespace ContadorDeLanches
                 
             }
             var hoje = Form1.DiaNormal;
-            var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento && x.Dia == hoje);
+            var bal = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento1 && x.Dia == hoje);
             if (bal == null)
             {
-                bal = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.Total, IdPagamento = ped.IdPagamento, Dia = Form1.DiaNormal });
+                bal = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.ValorPago1, IdPagamento = ped.IdPagamento1.Value, Dia = Form1.DiaNormal });
             }
             else
             {
-                bal.Total += ped.Total;
+                bal.Total += ped.ValorPago1;
                 var entry = Form1.contexto.Entry(bal); // Gets the entry for entity inside context
                 entry.State = EntityState.Modified;
             }
             Form1.contexto.SaveChanges();
-            salvarPedido(ped, cli, pag);
+            if (pag2 != null)
+            {
+                var bal2 = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento2 && x.Dia == hoje);
+                if (bal2 == null)
+                {
+                    bal2 = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.ValorPago2.Value, IdPagamento = ped.IdPagamento2.Value, Dia = Form1.DiaNormal });
+                }
+                else
+                {
+                    bal2.Total += ped.ValorPago2.Value;
+                    var entry = Form1.contexto.Entry(bal2); // Gets the entry for entity inside context
+                    entry.State = EntityState.Modified;
+                }
+            }
+            if (pag3 != null)
+            {
+                var bal3 = Form1.contexto.Balanco.FirstOrDefault(x => x.IdPagamento == ped.IdPagamento3 && x.Dia == hoje);
+                if (bal3 == null)
+                {
+                    bal3 = Form1.contexto.Balanco.Add(new Balanco() { Total = ped.ValorPago3.Value, IdPagamento = ped.IdPagamento3.Value, Dia = Form1.DiaNormal });
+                }
+                else
+                {
+                    bal3.Total += ped.ValorPago3.Value;
+                    var entry = Form1.contexto.Entry(bal3); // Gets the entry for entity inside context
+                    entry.State = EntityState.Modified;
+                }
+            }
+            Form1.contexto.SaveChanges();
+            salvarPedido(ped, cli, pag1);
             this.Close();
         }
         public string Diretoriocomanda = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\comandas";
@@ -168,6 +253,10 @@ namespace ContadorDeLanches
                 total += d.Preco;
             }
             label6.Text = (total).ToString("C2", CultureInfo.GetCultureInfo("pt-BR"));
+            if (!checkBox2.Checked)
+            {
+                textBox1.Text = (total).ToString("0.00", CultureInfo.GetCultureInfo("pt-BR"));
+            }
         }
         public void adicionarlinha(PedidoLanche ped)
         {
@@ -313,19 +402,50 @@ namespace ContadorDeLanches
                     comboBox3.SelectedIndex = comboBox3.FindStringExact("pix");
                     fecharPedido();
                     break;
+                case Keys.Divide:
+                    checkBox2.Checked = !checkBox2.Checked;
+                    break;
+                case Keys.None:
+                    if(e.KeyValue==193)
+                    checkBox2.Checked =! checkBox2.Checked;
+                    break;
             }
         }
         private void PedidoForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-           // dev(e);
-
 
         }
 
         private void PedidoForm_KeyDown(object sender, KeyEventArgs e)
         {
-           // e.
             dev(e);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkBox2.Checked)
+            {
+                comboBox4.Visible = false;
+                comboBox5.Visible = false;
+                textBox1.Visible = false;
+                textBox2.Visible = false;
+                textBox3.Visible = false;
+                calculatotal();
+                textBox2.Text = "0,00";
+                textBox3.Text = "0,00";
+                comboBox4.Text = "";
+                comboBox5.Text = "";
+                comboBox4.SelectedIndex = -1;
+                comboBox5.SelectedIndex = -1;
+            }
+            else
+            {
+                comboBox4.Visible = true;
+                comboBox5.Visible = true;
+                textBox1.Visible = true;
+                textBox2.Visible = true;
+                textBox3.Visible = true;
+            }
         }
     }
 }

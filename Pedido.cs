@@ -13,7 +13,12 @@ namespace ContadorDeLanches
         public int Id { get; set; }
 
         public int IdCliente { get; set; }
-        public int IdPagamento { get; set; }
+        public int? IdPagamento1 { get; set; }
+        public double ValorPago1 { get; set; }
+        public int? IdPagamento2 { get; set; }
+        public double? ValorPago2 { get; set; }
+        public int? IdPagamento3 { get; set; }
+        public double? ValorPago3 { get; set; }
         public DateTime Chegada { get; set; }
         public bool ParaViagem { get; set; }
         public int status { get; set; }
