@@ -144,7 +144,7 @@ namespace ContadorDeLanches
             labellanchebalstotal.BackColor = System.Drawing.SystemColors.Control;
             labellanchebalstotal.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             labellanchebalstotal.ForeColor = System.Drawing.Color.Chocolate;
-            labellanchebalstotal.Location = new System.Drawing.Point(500, 41 + (bals.Count * 25));
+            labellanchebalstotal.Location = new System.Drawing.Point(500, 91 + (bals.Count * 25));
             labellanchebalstotal.Name = "balslanche" + bals.Count;
             labellanchebalstotal.Size = new System.Drawing.Size(87, 32);
             labellanchebalstotal.TabIndex = 2;
@@ -154,7 +154,7 @@ namespace ContadorDeLanches
             labellanchebals2total.BackColor = System.Drawing.SystemColors.Control;
             labellanchebals2total.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             labellanchebals2total.ForeColor = System.Drawing.Color.LimeGreen;
-            labellanchebals2total.Location = new System.Drawing.Point(766, 41 + (bals.Count * 25));
+            labellanchebals2total.Location = new System.Drawing.Point(766, 91 + (bals.Count * 25));
             labellanchebals2total.Name = "balslanchen" + bals.Count;
             labellanchebals2total.Size = new System.Drawing.Size(87, 32);
             labellanchebals2total.TabIndex = 2;
@@ -313,42 +313,20 @@ namespace ContadorDeLanches
         }
         void atualizar()
         {
-            /*
-            int lancheid = 0;
-           if(int.TryParse(textBox1.Text,out lancheid))
-            {
-                var hoje = DiaNormal;
-                var lanche= contexto.LanchesDia.FirstOrDefault(x => x.IdLanche == lancheid && x.Dia== hoje);
-                if(lanche != null)
-                {
-                    lanche.Qtd += 1;
-                    contexto.SaveChanges();
-                    atulizartabela();
-                }
-                else
-                {
-                    MessageBox.Show("codigo lanche invalido");
-                }
-            }
-            else
-            {
-                MessageBox.Show("lache invalido");
-            }
-            //textBox1.Text = "";
-            */
+            atulizartabela();
+            atulizartabelab();
+            atulizartabelac();
+            atulizartabelad();
         }
         private void button1_Click(object sender, EventArgs e)
         {
             if(Compra==null || Compra.IsDisposed)
                 Compra = new PedidoForm();
             Compra.Show();
-           // atualizar();
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            //if(e.KeyCode==Keys.Enter)
-            // atualizar();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -375,12 +353,25 @@ namespace ContadorDeLanches
 
         private void tabPage2_Enter(object sender, EventArgs e)
         {
-            atulizartabelab();
-            atulizartabelac();
-            atulizartabelad();
-            /*
-*/
+            atualizar();
+        }
 
+        
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("você tem certeza que deseja voltar o dia ??",
+                                     "Confirmar voltar Dia!!",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                contexto.Balanco.RemoveRange(contexto.Balanco.Where(x => x.Dia == DiaNormal));
+                contexto.SaveChanges();
+                contexto.LanchesDia.RemoveRange(contexto.LanchesDia.Where(x => x.Dia == DiaNormal));
+                contexto.SaveChanges();
+                DiaNormal = DiaNormal.AddDays(-1);
+                atualizar();
+            }
         }
     }
 }

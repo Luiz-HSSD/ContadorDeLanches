@@ -35,8 +35,9 @@ namespace ContadorDeLanches
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -47,7 +48,7 @@ namespace ContadorDeLanches
             this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button1.BackColor = System.Drawing.Color.LawnGreen;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(553, 306);
+            this.button1.Location = new System.Drawing.Point(549, 415);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(471, 125);
             this.button1.TabIndex = 0;
@@ -60,7 +61,7 @@ namespace ContadorDeLanches
             this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button2.BackColor = System.Drawing.Color.Red;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(553, 112);
+            this.button2.Location = new System.Drawing.Point(549, 221);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(471, 125);
             this.button2.TabIndex = 2;
@@ -84,6 +85,7 @@ namespace ContadorDeLanches
             this.tabPage1.BackgroundImage = global::ContadorDeLanches.Properties.Resources.point;
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -109,6 +111,18 @@ namespace ContadorDeLanches
             this.tabPage2.Text = "Gráfico";
             this.tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.Control;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.LimeGreen;
+            this.label2.Location = new System.Drawing.Point(537, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 31);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "0";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -121,17 +135,18 @@ namespace ContadorDeLanches
             this.label1.TabIndex = 0;
             this.label1.Text = "Total Lanches:";
             // 
-            // label2
+            // button3
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.SystemColors.Control;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.LimeGreen;
-            this.label2.Location = new System.Drawing.Point(537, 3);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 31);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "0";
+            this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button3.BackColor = System.Drawing.Color.Gold;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(549, 41);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(471, 125);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Voltar Dia";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
             // Form1
             // 
@@ -160,6 +175,7 @@ namespace ContadorDeLanches
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button3;
     }
 }
 
