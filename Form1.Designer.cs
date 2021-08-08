@@ -35,8 +35,11 @@ namespace ContadorDeLanches
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -94,15 +97,41 @@ namespace ContadorDeLanches
             // tabPage2
             // 
             this.tabPage2.AutoScroll = true;
+            this.tabPage2.BackColor = System.Drawing.Color.White;
             this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1052, 663);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Gráfico";
-            this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.SystemColors.Control;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Chocolate;
+            this.label1.Location = new System.Drawing.Point(285, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(193, 31);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Total Lanches:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.Control;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.LimeGreen;
+            this.label2.Location = new System.Drawing.Point(537, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 31);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "0";
             // 
             // Form1
             // 
@@ -116,6 +145,8 @@ namespace ContadorDeLanches
             this.Text = "Contador de Lanches";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -127,6 +158,8 @@ namespace ContadorDeLanches
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 

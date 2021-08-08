@@ -72,7 +72,8 @@ namespace ContadorDeLanches
             }
             else
             {
-                valorPagoParcial += double.Parse(textBox2.Text, CultureInfo.GetCultureInfo("pt-BR"));
+                if (pag2 != null)
+                    valorPagoParcial += double.Parse(textBox2.Text, CultureInfo.GetCultureInfo("pt-BR"));
             }
             var pag3 = Form1.contexto.Pagamento.FirstOrDefault(x => x.Nome == comboBox5.Text);
             var valorpag3 = textBox3.Text;
@@ -83,7 +84,8 @@ namespace ContadorDeLanches
             }
             else
             {
-                valorPagoParcial += double.Parse(textBox1.Text, CultureInfo.GetCultureInfo("pt-BR"));
+                if (pag3 != null)
+                    valorPagoParcial += double.Parse(textBox3.Text, CultureInfo.GetCultureInfo("pt-BR"));
             }
 
             double totalped = 0;
