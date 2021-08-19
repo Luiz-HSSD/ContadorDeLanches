@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Printing;
 
 namespace ContadorDeLanches
 {
@@ -23,7 +24,8 @@ namespace ContadorDeLanches
             lanchesped = new List<PedidoLanche>() { };
             atualizar();
         }
-
+        private PrintDocument printDocument1 = new PrintDocument();
+        private string stringToPrint;
         private void PedidoForm_Shown(object sender, EventArgs e)
         {
             comboBox1.Items.Clear();
@@ -37,6 +39,30 @@ namespace ContadorDeLanches
             dateTimePicker1.Value = DateTime.Now;
             comboBox2.SelectedItem = null;
             checkBox1.Checked = false;
+            // Associate the PrintPage event handler with the PrintPage event.
+            printDocument1.PrintPage +=
+                new PrintPageEventHandler(printDocument1_PrintPage);
+        }
+        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            int charactersOnPage = 0;
+            int linesPerPage = 0;
+
+            // Sets the value of charactersOnPage to the number of characters
+            // of stringToPrint that will fit within the bounds of the page.
+            e.Graphics.MeasureString(stringToPrint, this.Font,
+                e.MarginBounds.Size, StringFormat.GenericTypographic,
+                out charactersOnPage, out linesPerPage);
+
+            // Draws the string within the bounds of the page
+            e.Graphics.DrawString(stringToPrint, this.Font, Brushes.Black,
+                e.MarginBounds, StringFormat.GenericTypographic);
+
+            // Remove the portion of the string that has been printed.
+            stringToPrint = stringToPrint.Substring(charactersOnPage);
+
+            // Check to see if more pages are to be printed.
+            e.HasMorePages = (stringToPrint.Length > 0);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -240,7 +266,16 @@ namespace ContadorDeLanches
             comanda += "Total: " + label6.Text + "\r\n";
             var arquivo = Diretoriocomandahoje + "\\" + ped.Id + " " + DateTime.Now.ToString("HH-mm-ss")+".txt";
             File.WriteAllText(arquivo, comanda);
-            System.Diagnostics.Process.Start(arquivo);
+            if (checkBox3.Checked) {
+                printDocument1.DocumentName = ped.Id + " " + DateTime.Now.ToString("HH-mm-ss") + ".txt";
+                using (FileStream stream = new FileStream(arquivo, FileMode.Open))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    stringToPrint = reader.ReadToEnd();
+                }
+                printDocument1.Print();
+            }
+            //System.Diagnostics.Process.Start(arquivo);
         }
 
         private void button3_Click(object sender, EventArgs e)
