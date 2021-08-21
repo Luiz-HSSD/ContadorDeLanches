@@ -50,13 +50,14 @@ namespace ContadorDeLanches
 
             // Sets the value of charactersOnPage to the number of characters
             // of stringToPrint that will fit within the bounds of the page.
-            Rectangle folha = new Rectangle(0, 0, 80, 130);
-            e.Graphics.MeasureString(stringToPrint, this.Font,
+            Rectangle folha = new Rectangle(0, 0, 414, 414);
+            var fonte = new Font(new FontFamily("Arial"), 12); 
+            e.Graphics.MeasureString(stringToPrint, fonte,
                 folha.Size, StringFormat.GenericTypographic,
                 out charactersOnPage, out linesPerPage);
 
             // Draws the string within the bounds of the page
-            e.Graphics.DrawString(stringToPrint, this.Font, Brushes.Black,
+            e.Graphics.DrawString(stringToPrint, fonte, Brushes.Black,
                 folha, StringFormat.GenericTypographic);
 
             // Remove the portion of the string that has been printed.
