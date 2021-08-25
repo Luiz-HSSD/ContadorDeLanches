@@ -17,6 +17,7 @@ namespace ContadorDeLanches
     public partial class PedidoForm : Form
     {
         private static ItemForm Compra = new ItemForm();
+        private static QtdRapida CompraRapida= new QtdRapida();
         internal static List<PedidoLanche> lanchesped;
         public PedidoForm()
         {
@@ -170,7 +171,7 @@ namespace ContadorDeLanches
                 var lanche = Form1.contexto.LanchesDia.FirstOrDefault(x => x.IdLanche == pedi.IdLanche && x.Dia == DiaNormal);
                 if (lanche != null)
                 {
-                    lanche.Qtd += 1;
+                    lanche.Qtd += pedi.Qtd;
                     if (pedi.pedLanchesAdicionais.Count() > 0)
                     {
                         foreach (var a in pedi.pedLanchesAdicionais)
@@ -250,9 +251,10 @@ namespace ContadorDeLanches
             comanda += "Pagamento: "+ pag.Nome+ "\r\n";
             comanda += "Para Viagem: "+ (ped.ParaViagem?"Sim":"Não")+ "\r\n";
             comanda += "\r\n";
+            comanda += "Qtd | Item  | Valor\r\n";
             foreach (var pedi in lanchesped)
             {
-                comanda += pedi.IdItem + "\t\tItem:" + pedi.LancheNome + "\t\t Preço: " + lanches.FirstOrDefault(x => x.Id == pedi.IdLanche).Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\r\n";
+                comanda += pedi.Qtd + "\t\t|" + pedi.LancheNome + "\t\t|" + lanches.FirstOrDefault(x => x.Id == pedi.IdLanche).Preco.ToString("C2",CultureInfo.GetCultureInfo("pt-BR"))+ "\r\n";
             }
             foreach (var pedi in lanchesped)
             {
@@ -260,7 +262,7 @@ namespace ContadorDeLanches
                 {
                     foreach (var a in pedi.pedLanchesAdicionais)
                     {
-                        comanda += (lanchesped.Count() + a.Id) + "\t\tItem Adicional:" + a.Nome + "\t\t Preço: " + a.Preco.ToString("C2", CultureInfo.GetCultureInfo("pt-BR")) + "\r\n";
+                        comanda += (lanchesped.Count() + a.Id) + "\t\tAdicional:" + a.Nome + "\t\t |" + a.Preco.ToString("C2", CultureInfo.GetCultureInfo("pt-BR")) + "\r\n";
                     }
                 }
             }
@@ -349,7 +351,8 @@ namespace ContadorDeLanches
             var pedi = new PedidoLanche()
             {
                 PontoCarne = "",
-                Remover = ""
+                Remover = "",
+                Qtd=1
             };
             switch (e.KeyCode)
             {
@@ -444,6 +447,9 @@ namespace ContadorDeLanches
                 case Keys.Divide:
                     checkBox2.Checked = !checkBox2.Checked;
                     break;
+                case Keys.Q:
+                    button4_Click(null, null);
+                    break;
                 case Keys.None:
                     if(e.KeyValue == 193)
                         checkBox2.Checked =! checkBox2.Checked;
@@ -485,6 +491,13 @@ namespace ContadorDeLanches
                 textBox2.Visible = true;
                 textBox3.Visible = true;
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (CompraRapida == null || CompraRapida.IsDisposed)
+                CompraRapida = new QtdRapida();
+            CompraRapida.Show();
         }
     }
 }

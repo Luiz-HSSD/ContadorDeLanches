@@ -44,7 +44,7 @@ namespace ContadorDeLanches
             var lan = Form1.contexto.Lanches.FirstOrDefault(x => x.Nome.ToLower() == comboBox1.Text.ToLower());
             if (lan == null)
             {
-                MessageBox.Show("Lanche inválido");
+                MessageBox.Show("Lanche inválido!");
                 return;
             }
             var pedi = new PedidoLanche()
@@ -52,6 +52,7 @@ namespace ContadorDeLanches
                 IdLanche = lan.Id,
                 PontoCarne = comboBox2.Text,
                 Remover = textBox3.Text,
+                Qtd = 1,
                 Preco = lan.Preco,
                 Adicionais = "",
                 pedLanchesAdicionais=pedLanchesAdicionaiss
