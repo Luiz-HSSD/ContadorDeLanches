@@ -345,6 +345,7 @@ namespace ContadorDeLanches
                 calculatotal();
             }
         }
+        bool iscomboxisfocused = false;
         public void dev(KeyEventArgs e)
         {
             var lan = new Lanche();
@@ -448,8 +449,11 @@ namespace ContadorDeLanches
                     checkBox2.Checked = !checkBox2.Checked;
                     break;
                 case Keys.Q:
-                    button4_Click(null, null);
-                    break;
+                        if (!iscomboxisfocused) 
+                        {
+                            button4_Click(null, null);
+                        }
+                        break;
                 case Keys.None:
                     if(e.KeyValue == 193)
                         checkBox2.Checked =! checkBox2.Checked;
@@ -498,6 +502,16 @@ namespace ContadorDeLanches
             if (CompraRapida == null || CompraRapida.IsDisposed)
                 CompraRapida = new QtdRapida();
             CompraRapida.Show();
+        }
+
+        private void comboBox1_Enter(object sender, EventArgs e)
+        {
+            iscomboxisfocused = true;
+        }
+
+        private void comboBox1_Leave(object sender, EventArgs e)
+        {
+            iscomboxisfocused = false;
         }
     }
 }

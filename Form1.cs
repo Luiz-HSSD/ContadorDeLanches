@@ -331,7 +331,9 @@ namespace ContadorDeLanches
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DiaNormal = contexto.LanchesDia.Max(x => x.Dia).AddDays(1);
+            DiaNormal = contexto.LanchesDia.Max(x => x.Dia);
+            DiaNormal = DiaNormal.Date < DateTime.Now.Date ? DateTime.Now.Date:DiaNormal.Date;
+            DiaNormal = DiaNormal.AddDays(1);
             var lanches = new List<LancheDia>();
             foreach (var lanche in contexto.Lanches.ToList())
             {
